@@ -1,8 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Double } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type ProductDocument = Product & Document;
-@Schema({collection : "E-Commerce_Products"})
+@Schema({ collection: 'E-Commerce_Products' })
 export class Product extends Document {
   @Prop({ required: true })
   product_name: string;

@@ -5,7 +5,6 @@ import { Product, ProductDocument } from './models/products.schema';
 import { createProductDto } from './dto/createProductDto';
 import { NotFoundException } from '@nestjs/common';
 
-
 @Injectable()
 export class ProductService {
   constructor(
@@ -38,8 +37,8 @@ export class ProductService {
       createProductDto,
       { new: true },
     );
-    if (updatedProduct) throw new NotFoundException('Product does not exist!');
-    return updatedProduct!;
+    if (!updatedProduct) throw new NotFoundException('Product does not exist!');
+    return updatedProduct;
   }
 
   async deleteProduct(id: string): Promise<any> {
