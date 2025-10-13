@@ -20,7 +20,7 @@ export class Product extends Document {
   stock_quantity: number;
 
   @Prop({ required: true })
-  product_category: number;
+  product_category: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
