@@ -33,3 +33,7 @@ export class User extends Document{
     role: string;
 
 }
+
+
+export const UserSchema = SchemaFactory.createForClass(User);
+

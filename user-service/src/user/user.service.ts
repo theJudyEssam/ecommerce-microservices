@@ -9,7 +9,7 @@ import {NotFoundException} from "@nestjs/common";
 @Injectable()
 export class UserService {
     constructor(
-        @InjectModel('User')
+        @InjectModel("E-Commerce_Users")
         private readonly userModel: Model<UserDocument>,
     ) {}
 
