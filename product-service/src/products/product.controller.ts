@@ -12,13 +12,15 @@ import {
 import { ProductService } from './product.service';
 import { createProductDto } from './dto/createProductDto';
 import { filterProductDto } from './dto/filterProductDto';
+import { MessagePattern } from "@nestjs/microservices";
+
 
 @Controller('store/products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @Get('/')
-  async getProducts(@Query() filterProductDTO: filterProductDto) {
+  @MessagePattern({ cmd: 'get_products' })
+  async getProducts(filterProductDTO: filterProductDto) {
     if (Object.keys(filterProductDTO).length) {
       const filteredProducts =
         await this.productService.getFilteredProducts(filterProductDTO);
@@ -28,38 +30,39 @@ export class ProductController {
       return allProducts;
     }
   }
-  @Get('/:id')
-  async getProduct(@Param('id') id: string) {
+
+  @MessagePattern({ cmd: 'get_product' })
+  async getProduct(id: string) {
     const product = await this.productService.getProduct(id);
     if (!product) throw new NotFoundException('Product does not exist!');
     return product;
   }
 
-  @Put("increment/:id")
-  async addQuantity(@Param('id') id: string) { 
+  @MessagePattern({ cmd: 'increment_quantity' })
+  async addQuantity(id: string) { 
     const product = await this.productService.addQuantity(id);
     if (!product) throw new NotFoundException('Product does not exist!');
     return product;
   }
 
-  @Put ("decrement/:id")
-  async reduceQuantity(@Param('id') id: string) { 
+  @MessagePattern({ cmd: 'decrement_quantity' })
+  async reduceQuantity(id: string) { 
     const product = await this.productService.reduceQuantity(id);
     if (!product) throw new NotFoundException('Product does not exist!');
     return product;
   }
 
 
-  @Post('/')
-  async addProduct(@Body() createProductDTO: createProductDto) {
+  @MessagePattern({ cmd: 'add_product' })
+  async addProduct(createProductDTO: createProductDto) {
     const product = await this.productService.addProduct(createProductDTO);
     return product;
   }
 
-  @Put('/:id')
+  @MessagePattern({ cmd: 'update_product' })
   async updateProduct(
-    @Param('id') id: string,
-    @Body() createProductDTO: createProductDto,
+    id: string,
+    createProductDTO: createProductDto,
   ) {
     const product = await this.productService.updateProduct(
       id,
@@ -69,8 +72,8 @@ export class ProductController {
     return product;
   }
 
-  @Delete('/:id')
-  async deleteProduct(@Param('id') id: string) {
+  @MessagePattern({ cmd: 'delete_product' })
+  async deleteProduct(id: string) {
     const product = await this.productService.deleteProduct(id);
     if (!product) throw new NotFoundException('Product does not exist');
     return product;
