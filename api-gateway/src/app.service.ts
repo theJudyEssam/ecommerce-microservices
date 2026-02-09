@@ -10,8 +10,9 @@ import {
 export class AppService {
 
   constructor(@Inject('PRODUCT_SERVICE') private readonly productClient: ClientProxy, 
-  @Inject('USER_SERVICE') private readonly userClient: ClientProxy) {}
-  
+    @Inject('USER_SERVICE') private readonly userClient: ClientProxy, 
+    @Inject("ORDER_SERVICE") private readonly orderClient: ClientProxy) {}
+    
 
   // for the product service
   async getProducts(filteredProducts: any) {
@@ -44,5 +45,35 @@ export class AppService {
     return this.userClient.send({ cmd: 'login' }, data);
   }
 
+
+  // for order service
+
+  async getOrder(id: string){
+    return this.orderClient.send({cmd:"get_order"}, id)
+  }
+
+  async getAllOrders(){
+    return this.orderClient.send({cmd: "get_all_orders"}, {})
+  }
+
+  async getFilteredPaymentOrders(paymentMethod: string){
+    return this.orderClient.send({cmd: "get_filtered_payment_orders"}, paymentMethod)
+  }
+
+  async getFilteredUserOrders(customerId: string){
+    return this.orderClient.send({cmd: "get_filtered_user_orders"}, customerId)
+  }
+
+  async getDatedOrders(date_string: string){
+    return this.orderClient.send({cmd: "get_dated_orders"}, date_string)
+  }
+
+  async createNewOrder(newOrder: any){
+    return this.orderClient.send({cmd: "create_new_order"}, newOrder)
+  }
+
+  async deleteExistingOrder(id: string){
+    return this.orderClient.send({cmd: "delete_order"}, id)
+  }
   
 }

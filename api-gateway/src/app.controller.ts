@@ -40,6 +40,46 @@ export class AppController {
   async loginUser(@Body() data: any) {
     return this.appService.loginUser(data);
   }
+  
+
+  // for the order service
+  @Get("/orders/:id")
+  async getOrder(@Param('id') id: string){
+    return this.appService.getOrder(id)
+   }
+
+    @Get("/orders")
+  async getAllOrders(){
+    return this.appService.getAllOrders()
+   }
+
+    @Get("/orders/payment/:paymentMethod")
+  async getFilteredPaymentOrders(@Param('paymentMethod') paymentMethod: string){
+    return this.appService.getFilteredPaymentOrders(paymentMethod)
+   }
+
+    @Get("/orders/date/:date_string")
+  async getDatedOrders(@Param('date_string') date_string: string){
+    return this.appService.getDatedOrders(date_string)  
+  }
+
+
+    @Get("/orders/user/:customerId")
+  async getFilteredUserOrders(@Param('customerId') customerId: string){
+    return this.appService.getFilteredUserOrders(customerId)
+  }
+
+    @Post("/orders")
+    async createNewOrder(@Body() newOrder: any){
+      return this.appService.createNewOrder(newOrder)
+    }
+
+   @Delete("/orders/:id")
+   async deleteExistingOrder(@Param('id') id: string){
+    return this.appService.deleteExistingOrder(id)
+   }
+
+
 
 
 }
