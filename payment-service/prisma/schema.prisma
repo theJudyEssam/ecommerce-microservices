@@ -6,7 +6,10 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
+  previewFeatures = ["clientExtensions"]
+  engineType      = "binary"
+  binaryTargets   = ["native"]
 }
 
 datasource db {
@@ -15,24 +18,26 @@ datasource db {
 }
 
 model PaymentOrder{
-  paymentId String @id @default(uuid())
-  buyerAccount String
+  transactionId String @id @default(uuid())
+  buyerId String
+  sellerId String
+  orderId String
   amount String
   currency String
-  transactionId String 
-  transactionEvent PaymentEvent @relation(fields: [transactionId], references: [transactionId])
-  paymentOrderStatus Boolean @default(false)
-  ledgerUpdated Boolean @default(false)
-  walletUpdated Boolean @default(false)
+  stripePaymentIntentId String @unique
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  paymentEvent PaymentEvent[]
 }
 
 model PaymentEvent{
-  transactionId String @id @default(uuid())
-  customerId String
-  sellerId String
-  creditCardInformation String
-  isPaymentDone Boolean @default(false)
-  paymentOrder PaymentOrder[]
+  eventId String @id @default(uuid())
+  paymentOrderId String 
+  paymentOrder PaymentOrder @relation(fields: [paymentOrderId], references: [transactionId])
+  eventType String
+  stripeEventId String
+  createdAt DateTime
 }
 
 
