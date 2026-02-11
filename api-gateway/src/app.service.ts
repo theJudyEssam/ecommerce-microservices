@@ -11,7 +11,10 @@ export class AppService {
 
   constructor(@Inject('PRODUCT_SERVICE') private readonly productClient: ClientProxy, 
     @Inject('USER_SERVICE') private readonly userClient: ClientProxy, 
-    @Inject("ORDER_SERVICE") private readonly orderClient: ClientProxy) {}
+    @Inject("ORDER_SERVICE") private readonly orderClient: ClientProxy, 
+    @Inject("PAYMENT_SERVICE") private readonly paymentClient: ClientProxy, 
+    @Inject("CART_SERVICE") private readonly cartClient: ClientProxy
+  ) {}
     
 
   // for the product service
@@ -75,5 +78,49 @@ export class AppService {
   async deleteExistingOrder(id: string){
     return this.orderClient.send({cmd: "delete_order"}, id)
   }
-  
+
+
+  // for payment service
+
+  async handlePaymentWebhook(eventBody: any){
+    return this.paymentClient.send({cmd: "webhook"}, eventBody)
+  }
+
+  async makePaymentORder(data: any){
+    return this.paymentClient.send({cmd: "make_payment_order"}, data)
+  }
+
+  async makePaymentEvent(data: any){
+    return this.paymentClient.send({cmd: "make_payment_event"}, data)
+  }
+
+  async updatePaymentOrder(where: any, data: any){
+    return this.paymentClient.send({cmd: "update_payment_order"}, {where, data})
+  }
+
+  async createPaymentIntent(paymentOrder: any){
+    return this.paymentClient.send({cmd: "create_payment_intent"}, paymentOrder)
+  }
+
+
+
+  //cart services 
+  async addToCart(cartDto: any){
+    return this.orderClient.send({cmd: "add_to_cart"}, cartDto)
+  }
+
+  async getCartByUserId(userId: string){
+    return this.orderClient.send({cmd: "get_cart"}, userId)
+  }
+
+  async removeFromCart(userId: string, productId: string){
+    return this.orderClient.send({cmd: "remove_from_cart"}, {userId, productId})
+  }
+
+  async clearCart(userId: string){
+    return this.orderClient.send({cmd: "clear_cart"}, userId)
+  }
+
+
+
 }

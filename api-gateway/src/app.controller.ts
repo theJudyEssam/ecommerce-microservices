@@ -79,4 +79,57 @@ export class AppController {
     return this.appService.deleteExistingOrder(id)
    }
 
+
+
+   // for the payment service
+
+   @Post("/payments/webhook")
+   async handlePaymentWebhook(@Body() data: any){
+    return this.appService.handlePaymentWebhook(data)
+   }
+
+   @Post("/payments/create-payment-intent")
+    async createPaymentIntent(@Body() paymentOrder: any){
+      return this.appService.createPaymentIntent(paymentOrder)
+     }
+
+    @Post("/payments/make-payment-order")
+    async makePaymentOrder(@Body() data: any){
+      return this.appService.makePaymentORder(data)
+    }
+
+    @Post("/payments/make-payment-event")
+    async makePaymentEvent(@Body() data: any){
+      return this.appService.makePaymentEvent(data)
+    }
+
+    @Put("/payments/update-payment-order")
+    async updatePaymentOrder(@Body() payload: {where: any, data: any}){
+      return this.appService.updatePaymentOrder(payload.where, payload.data)
+      }
+
+
+    // cart endpoints
+
+    @Post("/carts/add")
+    async addToCart(@Body() cartDto: any){
+      return this.appService.addToCart(cartDto)
+    }
+
+    @Get("/carts/:userId")
+    async getCartByUserId(@Param('userId') userId: string){
+      return this.appService.getCartByUserId(userId)
+    }
+
+    @Delete("/carts/remove")
+    async removeFromCart(@Body() data: { userId: string; productId: string }){
+      return this.appService.removeFromCart(data.userId, data.productId)
+    }
+
+    @Delete("/carts/clear/:userId")
+    async clearCart(@Param('userId') userId: string){
+      return this.appService.clearCart(userId)
+     }
+     
+
 }
