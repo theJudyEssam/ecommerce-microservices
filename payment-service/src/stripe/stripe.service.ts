@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
-import Stripe from 'stripe'
+import Stripe from 'stripe';
 import {PaymentOrder,PaymentEvent,Prisma } from "../../generated/prisma/client.js";
 
 

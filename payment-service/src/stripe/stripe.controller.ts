@@ -10,6 +10,7 @@ import { PaymentEventDto } from "src/payment/dtos/PaymentEventDto";
 export class StripeController {
 
     constructor(private readonly stripeService: StripeService){}
+
     @MessagePattern('webhook')
     async handleWebhook(@Payload() event: any){
         try{

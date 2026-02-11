@@ -8,7 +8,8 @@ import { StripeModule } from './stripe/stripe.module';
 @Module({
   imports: [
      ConfigModule.forRoot({
-          isGlobal: true, // Makes ConfigService available globally
+          isGlobal: true,
+           envFilePath: '.env', 
         }), 
     PaymentModule, 
     StripeModule  
