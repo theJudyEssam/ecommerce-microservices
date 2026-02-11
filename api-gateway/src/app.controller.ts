@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put, Body, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Body, Delete, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -83,10 +83,18 @@ export class AppController {
 
    // for the payment service
 
-   @Post("/payments/webhook")
-   async handlePaymentWebhook(@Body() data: any){
-    return this.appService.handlePaymentWebhook(data)
-   }
+    @Post('webhook')
+  async stripeWebhook(@Req() req: any) {
+    const rawBody = req.body; 
+    const signature = req.headers['stripe-signature'];
+
+    if (!signature) {
+      return { status: 'error', message: 'Missing Stripe signature' };
+    }
+    return this.appService.handlePaymentWebhook({ rawBody, signature })
+  }
+
+ 
 
    @Post("/payments/create-payment-intent")
     async createPaymentIntent(@Body() paymentOrder: any){
@@ -95,7 +103,7 @@ export class AppController {
 
     @Post("/payments/make-payment-order")
     async makePaymentOrder(@Body() data: any){
-      return this.appService.makePaymentORder(data)
+      return this.appService.makePaymentOrder(data)
     }
 
     @Post("/payments/make-payment-event")

@@ -1,24 +1,19 @@
-import {
-  IsString,
-  IsOptional,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 
+export class PaymentEventDto {
+  @IsString()
+  @IsNotEmpty()
+  customerId: string;
 
-export class PaymentEventDto{
-    @IsString()
-    @IsNotEmpty()
-    customerId: string;
+  @IsString()
+  @IsNotEmpty()
+  transactionId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    transactionId: string;
+  @IsString()
+  @IsNotEmpty()
+  creditCardInfo: string;
 
-    @IsString()
-    @IsNotEmpty()
-    creditCardInfo: string;
-
-    @IsString()
-    @IsNotEmpty()
-    paymentOrders: any[];
+  @IsString()
+  @IsNotEmpty()
+  paymentOrders: any[];
 }

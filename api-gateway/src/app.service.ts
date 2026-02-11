@@ -86,7 +86,7 @@ export class AppService {
     return this.paymentClient.send({cmd: "webhook"}, eventBody)
   }
 
-  async makePaymentORder(data: any){
+  async makePaymentOrder(data: any){
     return this.paymentClient.send({cmd: "make_payment_order"}, data)
   }
 

@@ -55,7 +55,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
 
-
       {
         name: 'PAYMENT_SERVICE', 
         transport: Transport.RMQ, 

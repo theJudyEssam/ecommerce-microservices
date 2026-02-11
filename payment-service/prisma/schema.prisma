@@ -23,10 +23,10 @@ model PaymentOrder{
   orderId String
   amount String
   currency String
-  stripePaymentIntentId String @unique
+  stripePaymentIntentId String? @unique
   status String
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime?
   paymentEvent PaymentEvent[]
 }
 
